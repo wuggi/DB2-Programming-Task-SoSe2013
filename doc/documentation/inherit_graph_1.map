@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classCoGaDB_1_1ColumnBase.htm" title="This class represents a generic column, is the base class for all column classes and allows a uniform..." alt="" coords="7,59,164,88"/>
+<area shape="rect" id="node3" href="$classCoGaDB_1_1ColumnBaseTyped.htm" title="This class represents a column with type T, is the base class for all typed column classes and allows..." alt="" coords="213,59,440,88"/>
+<area shape="rect" id="node5" href="$classCoGaDB_1_1Column.htm" title="CoGaDB::Column\&lt; T \&gt;" alt="" coords="525,5,685,35"/>
+<area shape="rect" id="node7" href="$classCoGaDB_1_1CompressedColumn.htm" title="This class represents a compressed column with type T, is the base class for all compressed typed col..." alt="" coords="488,59,723,88"/>
+<area shape="rect" id="node11" href="$classCoGaDB_1_1LookupArray.htm" title="A LookupArray is a LookupColumn which is applied on a materialized column (of the table that is index..." alt="" coords="512,112,699,141"/>
+<area shape="rect" id="node9" href="$classCoGaDB_1_1DictionaryCompressedColumn.htm" title="This class represents a dictionary compressed column with type T, is the base class for all compresse..." alt="" coords="771,59,1064,88"/>
+</map>

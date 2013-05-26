@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classCoGaDB_1_1CompressedColumn.htm" title="This class represents a compressed column with type T, is the base class for all compressed typed col..." alt="" coords="35,341,269,371"/>
+<area shape="rect" id="node4" href="$classCoGaDB_1_1ColumnBaseTyped.htm" title="This class represents a column with type T, is the base class for all typed column classes and allows..." alt="" coords="39,261,265,291"/>
+<area shape="rect" id="node6" href="$classCoGaDB_1_1ColumnBase.htm" title="This class represents a generic column, is the base class for all column classes and allows a uniform..." alt="" coords="73,181,231,211"/>
+<area shape="rect" id="node8" title="STL class." alt="" coords="112,85,192,115"/>
+<area shape="rect" id="node10" title="STL class." alt="" coords="69,5,235,35"/>
+</map>

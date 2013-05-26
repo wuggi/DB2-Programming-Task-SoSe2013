@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['add',['add',['../classCoGaDB_1_1ColumnBase.htm#a320ad0009caf49680ecaf4c062fba500',1,'CoGaDB::ColumnBase::add(const boost::any &amp;new_Value)=0'],['../classCoGaDB_1_1ColumnBase.htm#afa1d5b89b522eabcae6dcecfd84a308b',1,'CoGaDB::ColumnBase::add(ColumnPtr column)=0'],['../classCoGaDB_1_1ColumnBaseTyped.htm#abe0449e21775f7b45c4bf78b92a10c7d',1,'CoGaDB::ColumnBaseTyped::add(const boost::any &amp;new_Value)'],['../classCoGaDB_1_1ColumnBaseTyped.htm#a86465e676bc50050e742502349a329b0',1,'CoGaDB::ColumnBaseTyped::add(ColumnPtr join_column)'],['../classCoGaDB_1_1ColumnBaseTyped.htm#a23c7594a257774ef9ddfbe99abd036a5',1,'CoGaDB::ColumnBaseTyped::add(const boost::any &amp;)'],['../classCoGaDB_1_1ColumnBaseTyped.htm#a84c1639c77eadf006e7807784d9dff29',1,'CoGaDB::ColumnBaseTyped::add(ColumnPtr)']]]
+];

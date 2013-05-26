@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['dictionarycompressedcolumn',['DictionaryCompressedColumn',['../classCoGaDB_1_1DictionaryCompressedColumn.htm#a2ce96029914cc35242da298efbc52f3e',1,'CoGaDB::DictionaryCompressedColumn']]],
+  ['division',['division',['../classCoGaDB_1_1ColumnBase.htm#acb6c8321b6451c2bef58936e623b328c',1,'CoGaDB::ColumnBase::division(const boost::any &amp;new_Value)=0'],['../classCoGaDB_1_1ColumnBase.htm#a8f0a22c214d54f410bb8a498a317a829',1,'CoGaDB::ColumnBase::division(ColumnPtr column)=0'],['../classCoGaDB_1_1ColumnBaseTyped.htm#a7c603f30ff974d76878a2d24fc863df6',1,'CoGaDB::ColumnBaseTyped::division(const boost::any &amp;new_Value)'],['../classCoGaDB_1_1ColumnBaseTyped.htm#aa792f1534eb72663cdad309f183902df',1,'CoGaDB::ColumnBaseTyped::division(ColumnPtr join_column)'],['../classCoGaDB_1_1ColumnBaseTyped.htm#a1eb7c89cfe4e8f8999380db3a86e14fa',1,'CoGaDB::ColumnBaseTyped::division(const boost::any &amp;)'],['../classCoGaDB_1_1ColumnBaseTyped.htm#a2cdd3d1b385fc47df49d25c216b3d82f',1,'CoGaDB::ColumnBaseTyped::division(ColumnPtr)']]]
+];
