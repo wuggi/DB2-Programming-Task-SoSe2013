@@ -1,5 +1,4 @@
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/compression/dictionary_compressed_column.hpp
-/home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/compression/our_compression.hpp
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/core/base_column.hpp
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/core/column.hpp
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/core/column_base_typed.hpp
@@ -302,3 +301,4 @@
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/base_column.cpp
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/main.cpp
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/unittest.cpp
+compression/run_length_encoding.hpp
