@@ -302,3 +302,4 @@
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/main.cpp
 /home/patrick/Studium/4.Semester/DB 2/DB2-Programming-Task-SoSe2013/unittest.cpp
 compression/run_length_encoding.hpp
+.gitignore
