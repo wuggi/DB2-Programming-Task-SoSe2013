@@ -25,11 +25,11 @@ namespace CoGaDB{
 
 	ColumnPtr ptr;
 	if(type==INT){
-		ptr=ColumnPtr(new Column<int>(name,INT));
+        ptr=ColumnPtr(new Column<int>(name,INT));
 	}else if(type==FLOAT){
-		ptr=ColumnPtr(new Column<float>(name,FLOAT));
+        ptr=ColumnPtr(new Column<float>(name,FLOAT));
 	}else if(type==VARCHAR){
-		ptr=ColumnPtr(new Column<string>(name,VARCHAR));
+        ptr=ColumnPtr(new Column<string>(name,VARCHAR));
 	}else if(type==BOOLEAN){
 		//ptr=ColumnPtr(new Column<bool>(name,BOOLEAN));
 		cout << "Fatal Error! invalid AttributeType: " << type << " for Column: " << name 

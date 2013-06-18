@@ -4,26 +4,27 @@
 #include <core/column_base_typed.hpp>
 #include <core/column.hpp>
 #include <core/compressed_column.hpp>
+#include <compression/run_length_encoding.hpp>
 
 /*this is the include for the example compressed column with empty implementation*/
 #include <compression/dictionary_compressed_column.hpp>
 
 using namespace CoGaDB;
 
-bool unittest(boost::shared_ptr<ColumnBaseTyped<int> > ptr);
-bool unittest(boost::shared_ptr<ColumnBaseTyped<float> > ptr);
+bool unittest(boost::shared_ptr<RunLengthEncoding<int> > ptr);
+//bool unittest(boost::shared_ptr<ColumnBaseTyped<float> > ptr);
 //bool unittest(boost::shared_ptr<ColumnBaseTyped<double> > ptr);
-bool unittest(boost::shared_ptr<ColumnBaseTyped<std::string> > ptr);
+//bool unittest(boost::shared_ptr<ColumnBaseTyped<std::string> > ptr);
 
 int main(){
 	/*create an object of your implemented column, and pass the smart pointer to the unittests*/
-   boost::shared_ptr<Column<int> > col (new Column<int>("int column",INT));
+   boost::shared_ptr<RunLengthEncoding<int> > col (new RunLengthEncoding<int>("int column",INT));
 	if(!unittest(col)){
 		std::cout << "At least one Unittest Failed!" << std::endl;	
 		return -1;	
 	}
 	std::cout << "Unitests Passed!" << std::endl;
-
+/*
    boost::shared_ptr<Column<float> > col_float (new Column<float>("float column",FLOAT));
 	if(!unittest(col_float)){
 		std::cout << "At least one Unittest Failed!" << std::endl;	
@@ -36,7 +37,7 @@ int main(){
 	if(!unittest(col_string)){
 		std::cout << "At least one Unittest Failed!" << std::endl;	
 		return -1;	
-	}
+    }**/
 	std::cout << "Unitests Passed!" << std::endl;
 
 	

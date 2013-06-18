@@ -1,8 +1,4 @@
 
-/*! \example dictionary_compressed_column.hpp
- * This is an example of how to implement a compression technique in our framework. One has to inherit from an abstract base class CoGaDB::RunLengthEncoding and implement the pure virtual methods.
- */
-
 #pragma once
 
 #include <core/compressed_column.hpp>
@@ -15,37 +11,34 @@ class RunLengthEncoding : public CompressedColumn<T>{
     public:
     /***************** constructors and destructor *****************/
     RunLengthEncoding(const std::string& name, AttributeType db_type);
-    virtual ~RunLengthEncoding();
+     ~RunLengthEncoding();
 
-    virtual bool insert(const boost::any& new_value)  = 0;
-    virtual bool insert(const T& new_value)  = 0;
+     bool insert(const boost::any& new_value);
+     bool insert(const T& new_value);
     //template <typename InputIterator>
     //bool insert(InputIterator first, InputIterator last);
 
-    virtual bool update(TID tid, const boost::any& new_value) = 0;
-    virtual bool update(PositionListPtr tid, const boost::any& new_value) = 0;
+     bool update(TID tid, const boost::any& new_value);
+     bool update(PositionListPtr tid, const boost::any& new_value);
 
-    virtual bool remove(TID tid)=0;
+     bool remove(TID tid);
     //assumes tid list is sorted ascending
-    virtual bool remove(PositionListPtr tid)=0;
-    virtual bool clearContent()=0;
+     bool remove(PositionListPtr tid);
+     bool clearContent();
 
-    virtual const boost::any get(TID tid) = 0;
+     const boost::any get(TID tid);
     //virtual const boost::any* const getRawData()=0;
-    virtual void print() const throw() = 0;
-    virtual size_t size() const throw() = 0;
-    virtual unsigned int getSizeinBytes() const throw() = 0;
+     void print() const throw();
+     size_t size() const throw();
+     unsigned int getSizeinBytes() const throw();
 
-    virtual const ColumnPtr copy() const = 0;
+     const ColumnPtr copy() const;
 
-    virtual bool store(const std::string& path)  = 0;
-    virtual bool load(const std::string& path)  = 0;
-    virtual bool isMaterialized() const  throw();
-
-    virtual bool isCompressed() const  throw();
+     bool store(const std::string& path);
+     bool load(const std::string& path);
 
 
-    virtual T& operator[](const int index)  = 0;
+     T& operator[](const int index);
 
     std::vector<T> values_;
     std::vector<int> cnt;
@@ -58,23 +51,14 @@ class RunLengthEncoding : public CompressedColumn<T>{
 
 
     template<class T>
-    RunLengthEncoding<T>::RunLengthEncoding(const std::string& name, AttributeType db_type) : ColumnBaseTyped<T>(name,db_type){
+    RunLengthEncoding<T>::RunLengthEncoding(const std::string& name, AttributeType db_type) : CompressedColumn<T>(name,db_type){
+
 
     }
 
     template<class T>
     RunLengthEncoding<T>::~RunLengthEncoding(){
 
-    }
-
-    template<class T>
-    bool RunLengthEncoding<T>::isMaterialized() const  throw(){
-        return false;
-    }
-
-    template<class T>
-    bool RunLengthEncoding<T>::isCompressed() const  throw(){
-        return true;
     }
 
 
@@ -87,9 +71,9 @@ class RunLengthEncoding : public CompressedColumn<T>{
         if(typeid(T)==new_value.type()){
              T value = boost::any_cast<T>(new_value);
 
-             for(int i=0;i<values_.size();i++)
+             for(unsigned long i=0;i<values_.size();i++)
              {
-                 if(values_[i]==new_value)
+                 if(values_[i]==value)
                  {
                      cnt[i]=cnt[i]+1;
                      return true;
@@ -103,9 +87,10 @@ class RunLengthEncoding : public CompressedColumn<T>{
         return false;
     }
 
-    bool RunLengthEncoding<T>:: insert(const T& new_value)
+    template<class T>
+    bool RunLengthEncoding<T>::insert(const T& new_value)
     {
-        for(int i=0;i<values_.size();i++)
+        for(unsigned long i=0;i<values_.size();i++)
         {
             if(values_.at(i)==new_value)
             {
@@ -113,7 +98,7 @@ class RunLengthEncoding : public CompressedColumn<T>{
                 return true;
             }
         }
-
+        T value = boost::any_cast<T>(new_value);
         values_.push_back(value);
         cnt.push_back(1);
         return true;
@@ -130,14 +115,13 @@ class RunLengthEncoding : public CompressedColumn<T>{
         return boost::any();
 
     }
-//TODO: cnt mit ausgeben
     template<class T>
     void RunLengthEncoding<T>::print() const throw(){
 
         std::cout << "| " << this->name_ << " |" << std::endl;
         std::cout << "________________________" << std::endl;
         for(unsigned int i=0;i<values_.size();i++){
-            std::cout << "| " << values_[i] << " |" << std::endl;
+            std::cout << "| " << cnt[i] << " |" << "| " << values_[i] << " |" << std::endl;
         }
 
     }
@@ -149,7 +133,7 @@ class RunLengthEncoding : public CompressedColumn<T>{
     template<class T>
     const ColumnPtr RunLengthEncoding<T>::copy() const{
 
-        return ColumnPtr(new Column<T>(*this));
+        return ColumnPtr(new RunLengthEncoding<T>(*this));
     }
 
     template<class T>
@@ -158,12 +142,17 @@ class RunLengthEncoding : public CompressedColumn<T>{
         //string path("data/");
         std::string path_(path);
         path_ += "/";
-        path_ += this->_;
+        path_ += this->name_;
         //std::cout << "Writing Column " << this->getName() << " to File " << path << std::endl;
         std::ofstream outfile (path_.c_str(),std::ios_base::binary | std::ios_base::out);
         boost::archive::binary_oarchive oa(outfile);
 
+        path_ += "cnt";
+        std::ofstream outfile2 (path_.c_str(),std::ios_base::binary | std::ios_base::out);
+        boost::archive::binary_oarchive oa2(outfile2);
+
         oa << values_;
+        oa2 << cnt;
 
         outfile.flush();
         outfile.close();
@@ -177,24 +166,17 @@ class RunLengthEncoding : public CompressedColumn<T>{
         //string path("data/");
         path_ += "/";
         path_ += this->name_;
-
-        //std::cout << "Opening File '" << path << "'..." << std::endl;
         std::ifstream infile (path_.c_str(),std::ios_base::binary | std::ios_base::in);
         boost::archive::binary_iarchive ia(infile);
+
+        path_ +="cnt";
+        std::ifstream infile2 (path_.c_str(),std::ios_base::binary | std::ios_base::in);
+        boost::archive::binary_iarchive ia2(infile2);
         ia >> values_;
+        ia2 >> cnt;
         infile.close();
 
 
-        return true;
-    }
-    template<class T>
-    bool RunLengthEncoding<T>::isMaterialized() const  throw(){
-
-        return false;
-    }
-
-    template<class T>
-    bool RunLengthEncoding<T>::isCompressed() const  throw(){
         return true;
     }
 
@@ -213,6 +195,10 @@ class RunLengthEncoding : public CompressedColumn<T>{
     bool RunLengthEncoding<T>::update(TID tid, const boost::any& new_value){
 
         cnt[tid]=cnt[tid]-1;
+        if(cnt[tid]==0)
+        {
+            values_.erase(values_.begin()+tid);
+        }
         return this->insert(new_value);
 
     }
@@ -220,8 +206,20 @@ class RunLengthEncoding : public CompressedColumn<T>{
     template<class T>
     bool RunLengthEncoding<T>::update(PositionListPtr tid , const boost::any& new_value){
 
-        cnt[tid]=cnt[tid]-1;
-        return this->insert(new_value);
+        if(!tid)return false;
+        if(new_value.empty()) return false;
+        if(typeid(T)==new_value.type()){
+             for(unsigned int i=0;i<tid->size();i++){
+                TID tid1=(*tid)[i];
+                if(!update(tid1,new_value)){
+                    return false;
+                }
+             }
+             return true;
+        }else{
+            std::cout << "Fatal Error!!! Typemismatch for column " << this->name_ << std::endl;
+        }
+        return false;
 
     }
 
@@ -230,35 +228,20 @@ class RunLengthEncoding : public CompressedColumn<T>{
         cnt[tid]=cnt[tid]-1;
         values_.erase(values_.begin()+tid);
 
-        return false;
+        return true;
     }
 
     template<class T>
     bool RunLengthEncoding<T>::remove(PositionListPtr tid){
         if(!tid)
             return false;
-        //test whether tid list has at least one element, if not, return with error
         if(tid->empty())
             return false;
 
-        //assert();
-
         typename PositionList::reverse_iterator rit;
 
-        for (rit = tid->rbegin(); rit!=tids->rend(); ++rit)
-            values_.erase(values_.begin()+(*rit));
-
-
-        //brauchen wir den Mist?
-        /*
-        //delete tuples in reverse order, otherwise the first deletion would invalidate all other tids
-        unsigned int i=tids->size()-1;
-        while(true)
-            TID = (*tids)[i];
-            values_.erase(values_.begin()+tid);
-            if(i==0) break;
-        }*/
-
+        for (rit = tid->rbegin(); rit!=tid->rend(); ++rit)
+            remove(*rit);
 
         return true;
     }

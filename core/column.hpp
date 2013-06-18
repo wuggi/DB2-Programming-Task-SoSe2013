@@ -238,9 +238,7 @@ class Column : public ColumnBaseTyped<T>{
 		//string path("data/");
 		std::string path(path_);
 		path += "/";
-        path += this->
-
-           _;
+        path += this->name_;
 		//std::cout << "Writing Column " << this->getName() << " to File " << path << std::endl;
 		std::ofstream outfile (path.c_str(),std::ios_base::binary | std::ios_base::out);
 		boost::archive::binary_oarchive oa(outfile);
