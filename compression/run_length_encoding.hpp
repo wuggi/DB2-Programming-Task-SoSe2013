@@ -10,11 +10,8 @@
 namespace CoGaDB{
 
 
-/*!
- *  \brief     This class represents a dictionary compressed column with type T, is the base class for all compressed typed column classes.
- */
 template<class T>
-class RunLengthEncoding : public RunLengthEncoding<T>{
+class RunLengthEncoding : public CompressedColumn<T>{
     public:
     /***************** constructors and destructor *****************/
     RunLengthEncoding(const std::string& name, AttributeType db_type);
@@ -22,6 +19,8 @@ class RunLengthEncoding : public RunLengthEncoding<T>{
 
     virtual bool insert(const boost::any& new_value)  = 0;
     virtual bool insert(const T& new_value)  = 0;
+    //template <typename InputIterator>
+    //bool insert(InputIterator first, InputIterator last);
 
     virtual bool update(TID tid, const boost::any& new_value) = 0;
     virtual bool update(PositionListPtr tid, const boost::any& new_value) = 0;
@@ -220,22 +219,55 @@ class RunLengthEncoding : public RunLengthEncoding<T>{
 
     template<class T>
     bool RunLengthEncoding<T>::update(PositionListPtr tid , const boost::any& new_value){
+
+        cnt[tid]=cnt[tid]-1;
+        return this->insert(new_value);
+
+    }
+
+    template<class T>
+    bool RunLengthEncoding<T>::remove(TID tid){
+        cnt[tid]=cnt[tid]-1;
+        values_.erase(values_.begin()+tid);
+
         return false;
     }
 
     template<class T>
-    bool DictionaryCompressedColumn<T>::remove(TID){
-        return false;
+    bool RunLengthEncoding<T>::remove(PositionListPtr tid){
+        if(!tid)
+            return false;
+        //test whether tid list has at least one element, if not, return with error
+        if(tid->empty())
+            return false;
+
+        //assert();
+
+        typename PositionList::reverse_iterator rit;
+
+        for (rit = tid->rbegin(); rit!=tids->rend(); ++rit)
+            values_.erase(values_.begin()+(*rit));
+
+
+        //brauchen wir den Mist?
+        /*
+        //delete tuples in reverse order, otherwise the first deletion would invalidate all other tids
+        unsigned int i=tids->size()-1;
+        while(true)
+            TID = (*tids)[i];
+            values_.erase(values_.begin()+tid);
+            if(i==0) break;
+        }*/
+
+
+        return true;
     }
 
     template<class T>
-    bool DictionaryCompressedColumn<T>::remove(PositionListPtr){
-        return false;
-    }
-
-    template<class T>
-    bool DictionaryCompressedColumn<T>::clearContent(){
-        return false;
+    bool RunLengthEncoding<T>::clearContent(){
+        values_.clear();
+        cnt.clear();
+        return true;
     }
 
 /***************** End of Implementation Section ******************/

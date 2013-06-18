@@ -52,7 +52,7 @@ class Column : public ColumnBaseTyped<T>{
 
 	
 	/*! values*/
-	std::vector<T> values_;
+    std::vector<T> values_;
 };
 
 
@@ -190,6 +190,8 @@ class Column : public ColumnBaseTyped<T>{
 		return boost::any();
 	}
 
+
+
 	template<class T>
 	void Column<T>::print() const throw(){
 		std::cout << "| " << this->name_ << " |" << std::endl;
@@ -202,12 +204,14 @@ class Column : public ColumnBaseTyped<T>{
 	size_t Column<T>::size() const throw(){
 		return values_.size();
 	}
-	template<class T>
+
+
+    template<class T>
 	const ColumnPtr Column<T>::copy() const{
 		return ColumnPtr(new Column<T>(*this));
 	}
 	/***************** relational operations on Columns which return lookup tables *****************/
-//	template<class T>
+//	templ<ate<class T>
 //	const std::vector<TID> Column<T>::sort(const ComputeDevice comp_dev) const {
 
 //		return std::vector<TID>();
@@ -234,7 +238,9 @@ class Column : public ColumnBaseTyped<T>{
 		//string path("data/");
 		std::string path(path_);
 		path += "/";
-		path += this->name_;
+        path += this->
+
+           _;
 		//std::cout << "Writing Column " << this->getName() << " to File " << path << std::endl;
 		std::ofstream outfile (path.c_str(),std::ios_base::binary | std::ios_base::out);
 		boost::archive::binary_oarchive oa(outfile);
