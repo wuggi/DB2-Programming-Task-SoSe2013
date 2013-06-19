@@ -205,36 +205,71 @@ RunLengthEncoding<T>::RunLengthEncoding(const std::string& name, AttributeType d
         if(typeid(T)==new_value.type()){
              T value = boost::any_cast<T>(new_value);
 
-            int counter=0;
+
+             /*=========================
+               ---------TODO------------
+               =========================
+                update
+                values_.begin()+counter
+                vergleich unsigned long <-> int
+            */
+            unsigned long counter=0;
             while(tid > 0){
                 tid-=cnt[counter];
                 counter++;
             }
-            if(tid=0){
-                if(counter > 0 && values_[counter-1]==value){
+
+            cnt[counter]--;
+            /* tid is at the end of a block */
+            if(tid==0){
+                /* tid is the only element in the block and new_value matches element before */
+                if(counter > 0 && cnt[counter]==0 && values_[counter-1]==value){
                     cnt[counter-1]++;
-                    values_.erase(counter);
+                    cnt.erase(cnt.begin()+counter);
+                    values_.erase((values_.begin()+counter));
+                    /* also matches element after */
                     if(values_[counter-1]==values_[counter]){
                         cnt[counter-1]+=cnt[counter];
-                        cnt.erase(counter);
-                        values_.erase(counter+1);
+                        cnt.erase(cnt.begin()+counter);
+                        values_.erase(values_.begin()+counter);
+                    }
+                /* tid is at the end of the block and matches element after */
+                } else if(counter < values_.size()-2 && values_[counter+1]==value){
+                    cnt[counter+1]++;
+                /* tid is at the end of the block and does not match element after*/
+                } else {
+                    /* tid is only element in block */
+                    if(cnt[counter]==0){
+                        cnt[counter]++;
+                        values_[counter]=value;
+                    /* tid is splitted off the end of block */
+                    } else {
+                        values_.insert(values_.begin()+counter+1, value);
+                        cnt.insert(cnt.begin()+counter+1,1);
                     }
                 }
-
-                if(counter < values_.size()-2 && values_[counter+1]==value){
-                    cnt[counter+1]++;
-                    values_.erase(counter);
+            /* tid is at the beginning of the block */
+            } else if((cnt[counter] + tid) == 0){
+                /* tid is at the beginning of block and matches element before */
+                if(counter > 0 && values_[counter-1]==value){
+                    cnt[counter-1]++;
+                /* tid is split off the beginning of the block */
+                } else {
+                    values_.insert(values_.begin()+counter-1, value);
+                    cnt.insert(cnt.begin()+counter-1,1);
                 }
-                return true;
+            /* tid is somewhere inside the block */
+            } else {
+                int old_cnt = cnt[counter];
+                cnt[counter] += tid;
+                values_.insert(values_.begin()+counter+1,value);
+                cnt.insert(cnt.begin()+counter+1,1);
+                values_.insert(values_.begin()+counter+2, values_[counter]);
+                cnt.insert(cnt.begin()+counter+2, old_cnt-cnt[counter]);
             }
-
-            values_[counter]=value;
-
-            if(cnt[tid]==0){
-                values_.erase(values_.begin()+tid);
-            }
-            return this->insert(new_value);
+            return true;
         }
+        return false;
     }
 
     template<class T>
