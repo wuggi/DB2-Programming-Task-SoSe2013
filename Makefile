@@ -4,7 +4,7 @@ HEADER_FILES := $(wildcard */*.hpp)
 all: main
 
 main: base_column.cpp  main.cpp  unittest.cpp ${HEADER_FILES}
-	g++ -Wall -Wextra -Weffc++ -Werror -I. main.cpp base_column.cpp unittest.cpp -o main -lboost_serialization-mt
+	clang++ -Wall -Wextra -Weffc++ -Werror -I. main.cpp base_column.cpp unittest.cpp -o main -lboost_serialization-mt
 
 run:
 	./main

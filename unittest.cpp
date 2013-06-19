@@ -6,11 +6,12 @@
 #include <core/column.hpp>
 #include <core/compressed_column.hpp>
 
+#include <compression/run_length_encoding.hpp>
 #include <compression/dictionary_compressed_column.hpp>
 
 using namespace CoGaDB;
 
-bool unittest(boost::shared_ptr<ColumnBaseTyped<int> > col){
+bool unittest(boost::shared_ptr<RunLengthEncoding<int> > col){
 	std::cout << "RUN Unittest for Column with BaseType ColumnBaseTyped<int> >" << std::endl;
 
 	std::vector<int> reference_data(100);
@@ -27,7 +28,7 @@ bool unittest(boost::shared_ptr<ColumnBaseTyped<int> > col){
    }	
 
 	if(reference_data.size()!=col->size()){ 
-		std::cout << "Fatal Error! In Unittest: invalid data size" << std::endl;
+        std::cout << "Fatal Error! In Unittest: invalid data size!!!!!!!!!!!!!!!!"<<col->size() << std::endl;
 		return false;
 	}
 
@@ -43,7 +44,7 @@ bool unittest(boost::shared_ptr<ColumnBaseTyped<int> > col){
 			return false;
 		}
   }
-	std::cout << "SUCCESS"<< std::endl;
+    std::cout << "SUCCESS" <<col->size()<< std::endl;
 	/****** VIRTUAL COPY CONSTRUCTOR TEST ******/
 	std::cout << "VIRTUAL COPY CONSTRUCTOR TEST...";
 
