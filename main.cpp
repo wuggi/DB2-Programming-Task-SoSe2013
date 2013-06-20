@@ -12,9 +12,9 @@
 using namespace CoGaDB;
 
 bool unittest(boost::shared_ptr<RunLengthEncoding<int> > ptr);
-//bool unittest(boost::shared_ptr<ColumnBaseTyped<float> > ptr);
+bool unittest(boost::shared_ptr<ColumnBaseTyped<float> > ptr);
 //bool unittest(boost::shared_ptr<ColumnBaseTyped<double> > ptr);
-//bool unittest(boost::shared_ptr<ColumnBaseTyped<std::string> > ptr);
+bool unittest(boost::shared_ptr<ColumnBaseTyped<std::string> > ptr);
 
 int main(){
 	/*create an object of your implemented column, and pass the smart pointer to the unittests*/
@@ -24,7 +24,7 @@ int main(){
 		return -1;	
 	}
 	std::cout << "Unitests Passed!" << std::endl;
-/*
+
    boost::shared_ptr<Column<float> > col_float (new Column<float>("float column",FLOAT));
 	if(!unittest(col_float)){
 		std::cout << "At least one Unittest Failed!" << std::endl;	
@@ -37,7 +37,7 @@ int main(){
 	if(!unittest(col_string)){
 		std::cout << "At least one Unittest Failed!" << std::endl;	
 		return -1;	
-    }**/
+    }
 	std::cout << "Unitests Passed!" << std::endl;
 
 	
